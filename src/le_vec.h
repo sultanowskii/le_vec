@@ -68,6 +68,8 @@ void le_vec_reverse(struct le_vec *v);
 // Returns NULL if something is wrong with indexes
 struct le_vec *le_vec_slice(struct le_vec const *v, size_t start, size_t end);
 
+// Returns number of elements with specified value
+size_t le_vec_count(struct le_vec const *v, LE_VEC_TYPE value);
 // Returns index of first elem entry
 // Returns invalid index if not found
 size_t le_vec_find(struct le_vec const *v, LE_VEC_TYPE elem);

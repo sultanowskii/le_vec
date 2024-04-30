@@ -272,6 +272,17 @@ struct le_vec *le_vec_slice(struct le_vec const *v, size_t start, size_t end) {
     return slice;
 }
 
+size_t le_vec_count(struct le_vec const *v, LE_VEC_TYPE value) {
+    size_t cntr = 0;
+    for (size_t i = 0; i < le_vec_get_length(v); i++) {
+        if (le_vec_get_at(v, i) == value) {
+            cntr++;
+        }
+    }
+
+    return cntr;
+}
+
 size_t le_vec_find(struct le_vec const *v, LE_VEC_TYPE elem) {
     return le_vec_find_n(v, elem, 1);
 }

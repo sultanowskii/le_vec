@@ -447,6 +447,45 @@ void test_slice_invalid(void) {
     le_vec_destroy(v);
 }
 
+void test_count(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+
+    size_t count1 = le_vec_count(v, 1);
+    ASSERT_EQUAL(count1, 7)
+
+    size_t count2 = le_vec_count(v, 2);
+    ASSERT_EQUAL(count2, 3)
+
+    le_vec_destroy(v);
+}
+
+void test_count_non_present(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 7);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 8);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 8);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 8);
+
+    size_t count = le_vec_count(v, 9999);
+    ASSERT_EQUAL(count, 0)
+
+    le_vec_destroy(v);
+}
+
 void test_find(void) {
     struct le_vec *v = le_vec_init();
     le_vec_push_back(v, 3);
@@ -685,6 +724,8 @@ void (*TESTS[])(void) = {
     test_slice_one,
     test_slice_all,
     test_slice_invalid,
+    test_count,
+    test_count_non_present,
     test_find,
     test_find_invalid,
     test_find_n,
