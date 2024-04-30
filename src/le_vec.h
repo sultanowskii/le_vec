@@ -55,3 +55,6 @@ void le_vec_extend(struct le_vec *v, struct le_vec const *other);
 struct le_vec *le_vec_map(struct le_vec const *v, LE_VEC_TYPE (*f)(LE_VEC_TYPE));
 // Same as `map()`, but does so in-place.
 void le_vec_for_each(struct le_vec *v, LE_VEC_TYPE (*f)(LE_VEC_TYPE));
+
+// Creates a copy of vector
+struct le_vec *le_vec_copy(struct le_vec const *v);

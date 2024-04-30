@@ -211,3 +211,11 @@ struct le_vec *le_vec_map(struct le_vec const *v, LE_VEC_TYPE (*f)(LE_VEC_TYPE))
 void le_vec_for_each(struct le_vec *v, LE_VEC_TYPE (*f)(LE_VEC_TYPE)) {
     _le_vec_map(v, v, f);
 }
+
+LE_VEC_TYPE return_itself(LE_VEC_TYPE value) {
+    return value;
+}
+
+struct le_vec *le_vec_copy(struct le_vec const *v) {
+    return le_vec_map(v, return_itself);
+}

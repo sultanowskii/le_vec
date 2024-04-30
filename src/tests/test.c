@@ -247,6 +247,26 @@ void test_for_each(void) {
     le_vec_destroy(v);
 }
 
+void test_copy(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 228);
+    le_vec_push_back(v, 1337);
+    le_vec_push_back(v, 420);
+    le_vec_push_back(v, 431);
+
+    struct le_vec *v_copy = le_vec_copy(v);
+    ASSERT_NOT_EQUAL(v_copy, NULL)
+    ASSERT_NOT_EQUAL(v_copy, v)
+    ASSERT_EQUAL(le_vec_get_length(v), 4)
+    ASSERT_EQUAL(le_vec_get_at(v_copy, 0), 228)
+    ASSERT_EQUAL(le_vec_get_at(v_copy, 1), 1337)
+    ASSERT_EQUAL(le_vec_get_at(v_copy, 2), 420)
+    ASSERT_EQUAL(le_vec_get_at(v_copy, 3), 431)
+
+    le_vec_destroy(v);
+    le_vec_destroy(v_copy);
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -261,6 +281,7 @@ void (*TESTS[])(void) = {
     test_extend,
     test_map,
     test_for_each,
+    test_copy,
 };
 
 int main() {
