@@ -267,6 +267,96 @@ void test_copy(void) {
     le_vec_destroy(v_copy);
 }
 
+void test_reversed_odd(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 9);
+    le_vec_push_back(v, 16);
+    le_vec_push_back(v, 25);
+
+    le_vec_reverse(v);
+    ASSERT_EQUAL(le_vec_get_length(v), 5)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 25)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 16)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 9)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 1)
+
+    le_vec_destroy(v);
+}
+
+void test_reversed_even(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 9);
+    le_vec_push_back(v, 16);
+
+    le_vec_reverse(v);
+    ASSERT_EQUAL(le_vec_get_length(v), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 16)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 9)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 1)
+
+    le_vec_destroy(v);
+}
+
+void test_reversed_two(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+
+    le_vec_reverse(v);
+    ASSERT_EQUAL(le_vec_get_length(v), 2)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 1)
+
+    le_vec_destroy(v);
+}
+
+void test_reversed_one(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 9999);
+
+    le_vec_reverse(v);
+    ASSERT_EQUAL(le_vec_get_length(v), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 9999)
+
+    le_vec_destroy(v);
+}
+
+void test_reverse(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 9);
+    le_vec_push_back(v, 16);
+    le_vec_push_back(v, 25);
+
+    struct le_vec *reversed_v = le_vec_reversed(v);
+    ASSERT_NOT_EQUAL(reversed_v, NULL)
+    ASSERT_NOT_EQUAL(reversed_v, v)
+
+    ASSERT_EQUAL(le_vec_get_length(v), 5)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 9)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 16)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 25)
+
+    ASSERT_EQUAL(le_vec_get_length(reversed_v), 5)
+    ASSERT_EQUAL(le_vec_get_at(reversed_v, 0), 25)
+    ASSERT_EQUAL(le_vec_get_at(reversed_v, 1), 16)
+    ASSERT_EQUAL(le_vec_get_at(reversed_v, 2), 9)
+    ASSERT_EQUAL(le_vec_get_at(reversed_v, 3), 4)
+    ASSERT_EQUAL(le_vec_get_at(reversed_v, 4), 1)
+
+    le_vec_destroy(v);
+    le_vec_destroy(reversed_v);
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -282,6 +372,11 @@ void (*TESTS[])(void) = {
     test_map,
     test_for_each,
     test_copy,
+    test_reversed_even,
+    test_reversed_odd,
+    test_reversed_two,
+    test_reversed_one,
+    test_reverse,
 };
 
 int main() {

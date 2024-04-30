@@ -219,3 +219,32 @@ LE_VEC_TYPE return_itself(LE_VEC_TYPE value) {
 struct le_vec *le_vec_copy(struct le_vec const *v) {
     return le_vec_map(v, return_itself);
 }
+
+struct le_vec *le_vec_reversed(struct le_vec const *v) {
+    size_t v_length = le_vec_get_length(v);
+    size_t v_last_index = le_vec_get_last_index(v);
+    struct le_vec *new_v = le_vec_init_with_length(v_length);
+
+    for (size_t i = 0; i < v_length; i++) {
+        size_t new_index = i;
+        size_t v_index = v_last_index - i;
+
+        le_vec_set_at(new_v, new_index, le_vec_get_at(v, v_index));
+    }
+
+    return new_v;
+}
+
+void le_vec_reverse(struct le_vec *v) {
+    size_t v_length = le_vec_get_length(v);
+    size_t v_last_index = le_vec_get_last_index(v);
+
+    for (size_t i = 0; i < v_length / 2; i++) {
+        size_t l = i;
+        size_t r = v_last_index - i;
+
+        LE_VEC_TYPE l_value = le_vec_get_at(v, l);
+        le_vec_set_at(v, l, le_vec_get_at(v, r));
+        le_vec_set_at(v, r, l_value);
+    }
+}

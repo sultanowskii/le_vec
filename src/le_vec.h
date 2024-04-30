@@ -58,3 +58,8 @@ void le_vec_for_each(struct le_vec *v, LE_VEC_TYPE (*f)(LE_VEC_TYPE));
 
 // Creates a copy of vector
 struct le_vec *le_vec_copy(struct le_vec const *v);
+
+// Creates a reversed copy of vector
+struct le_vec *le_vec_reversed(struct le_vec const *v);
+// Reverses vector in-place
+void le_vec_reverse(struct le_vec *v);
