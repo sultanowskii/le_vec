@@ -40,7 +40,7 @@ struct le_vec *le_vec_init_with_length(size_t request) {
 
     struct le_vec *v = malloc(sizeof(struct le_vec));
     LE_VEC_TYPE *data = malloc(request);
-   
+
     v->capacity = request;
     v->length = request;
     v->data = data;
@@ -187,10 +187,10 @@ void le_vec_extend(struct le_vec *v, struct le_vec const *other) {
     le_vec_resize(v, total_length);
 
     for (size_t i = 0; i < other_length; i++) {
-        size_t first_index = i + v_length;
+        size_t v_index = i + v_length;
         size_t other_index = i;
 
-        v->data[first_index] = other->data[other_index];
+        le_vec_set_at(v, v_index, le_vec_get_at(other, other_index));
     }
 }
 
