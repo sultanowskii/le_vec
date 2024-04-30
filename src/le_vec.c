@@ -54,22 +54,28 @@ size_t le_vec_get_length(struct le_vec const *v) {
     return v->length;
 }
 
-bool _le_vec_expand_to_request(struct le_vec *v, size_t request) {
-    if (v->capacity >= request) {
+bool le_vec_is_empty(struct le_vec const *v) {
+    return le_vec_get_length(v) == 0;
+}
+
+bool __le_vec_expand_to_request(struct le_vec *v, size_t request) {
+    size_t capacity = le_vec_get_capacity(v);
+    if (capacity >= request) {
         return false;
     }
 
-    while (v->capacity < request) {
-        v->capacity *= 2;
+    while (capacity < request) {
+        capacity *= 2;
     }
 
-    v->data = realloc(v->data, v->capacity);
-    
+    v->data = realloc(v->data, capacity);
+    v->capacity = capacity;
+
     return true;
 }
 
 bool _le_vec_expand(struct le_vec *v) {
-    return _le_vec_expand_to_request(v, v->length + 1);
+    return __le_vec_expand_to_request(v, v->length + 1);
 }
 
 void le_vec_push_back(struct le_vec *v, TYPE value) {
@@ -78,12 +84,37 @@ void le_vec_push_back(struct le_vec *v, TYPE value) {
     }
     v->length++;
 
-    size_t last_index = v->length - 1;
+    size_t last_index = le_vec_get_last_index(v);
     v->data[last_index] = value;
 }
 
+TYPE le_vec_pop_back(struct le_vec *v) {
+    size_t last_index = le_vec_get_last_index(v);
+    TYPE value = v->data[last_index];
+
+    v->length--;
+
+    return value;
+}
+
+TYPE le_vec_s_pop_back(struct le_vec *v, bool *success) {
+    if (le_vec_is_empty(v)) {
+        *success = false;
+        return (TYPE)0;
+    }
+
+    TYPE value = le_vec_pop_back(v);
+    *success = true;
+
+    return value;
+}
+
 bool le_vec_is_index_valid(struct le_vec const *v, size_t index) {
-    return 0 <= index && index < v->length;
+    return 0 <= index && index < le_vec_get_length(v);
+}
+
+size_t le_vec_get_last_index(struct le_vec const *v) {
+    return le_vec_get_length(v) - 1;
 }
 
 TYPE le_vec_get_at(struct le_vec const *v, size_t index) {

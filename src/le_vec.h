@@ -14,10 +14,14 @@ void le_vec_destroy(struct le_vec *v);
 
 size_t le_vec_get_length(struct le_vec const *v);
 size_t le_vec_get_capacity(struct le_vec const *v);
+bool le_vec_is_empty(struct le_vec const *v);
 
 void le_vec_push_back(struct le_vec *v, TYPE value);
+TYPE le_vec_pop_back(struct le_vec *v);
+TYPE le_vec_s_pop_back(struct le_vec *v, bool *success);
+
+bool le_vec_is_index_valid(struct le_vec const *v, size_t index);
+size_t le_vec_get_last_index(struct le_vec const *v);
 
 TYPE le_vec_get_at(struct le_vec const *v, size_t index);
 bool le_vec_set_at(struct le_vec *v, size_t index, TYPE value);
-
-bool le_vec_is_index_valid(struct le_vec const *v, size_t index);

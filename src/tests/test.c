@@ -40,8 +40,6 @@ void test_destroy_null(void) {
 
 void test_length_and_capacity_after_push(void) {
     struct le_vec *v = le_vec_init();
-    ASSERT_EQUAL(le_vec_get_length(v), 0)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
 
     le_vec_push_back(v, 100);
     ASSERT_EQUAL(le_vec_get_length(v), 1)
@@ -53,6 +51,55 @@ void test_length_and_capacity_after_push(void) {
 
     le_vec_push_back(v, 900);
     ASSERT_EQUAL(le_vec_get_length(v), 3)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    le_vec_destroy(v);
+}
+
+void test_push_pop(void) {
+    struct le_vec *v = le_vec_init();
+
+    le_vec_push_back(v, 11);
+    ASSERT_EQUAL(le_vec_get_length(v), 1)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    le_vec_push_back(v, 22);
+    ASSERT_EQUAL(le_vec_get_length(v), 2)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    int val = le_vec_pop_back(v);
+    ASSERT_EQUAL(val, 22);
+    ASSERT_EQUAL(le_vec_get_length(v), 1)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    le_vec_push_back(v, 33);
+    ASSERT_EQUAL(le_vec_get_length(v), 2)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    le_vec_destroy(v);
+}
+
+void test_pop(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 11);
+    le_vec_push_back(v, 22);
+
+    int val = le_vec_pop_back(v);
+    ASSERT_EQUAL(val, 22);
+    ASSERT_EQUAL(le_vec_get_length(v), 1)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    bool success = false;
+    int val1 = le_vec_s_pop_back(v, &success);
+    ASSERT_EQUAL(success, true);
+    ASSERT_EQUAL(val, 11);
+    ASSERT_EQUAL(le_vec_get_length(v), 0)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    success = false;
+    int val2 = le_vec_s_pop_back(v, &success);
+    ASSERT_EQUAL(success, false);
+    ASSERT_EQUAL(le_vec_get_length(v), 0)
     ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
 
     le_vec_destroy(v);
@@ -72,6 +119,24 @@ void test_is_index_valid(void) {
     ASSERT_EQUAL(le_vec_is_index_valid(v, 1), true)
     ASSERT_EQUAL(le_vec_is_index_valid(v, 2), true)
     ASSERT_EQUAL(le_vec_is_index_valid(v, 3), false)
+
+    le_vec_destroy(v);
+}
+
+void test_last_index(void) {
+    struct le_vec *v = le_vec_init();
+
+    le_vec_push_back(v, 12);
+    ASSERT_EQUAL(le_vec_get_last_index(v), 0)
+    le_vec_push_back(v, 23);
+    ASSERT_EQUAL(le_vec_get_last_index(v), 1)
+    le_vec_push_back(v, 34);
+    ASSERT_EQUAL(le_vec_get_last_index(v), 2)
+
+    le_vec_pop_back(v);
+    ASSERT_EQUAL(le_vec_get_last_index(v), 1)
+    le_vec_pop_back(v);
+    ASSERT_EQUAL(le_vec_get_last_index(v), 0)
 
     le_vec_destroy(v);
 }
@@ -96,7 +161,10 @@ void (*TESTS[])(void) = {
     test_init_with_invalid_length,
     test_destroy_null,
     test_length_and_capacity_after_push,
+    test_push_pop,
     test_is_index_valid,
+    test_last_index,
+    test_get_at,
 };
 
 int main() {
