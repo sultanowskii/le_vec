@@ -271,3 +271,42 @@ struct le_vec *le_vec_slice(struct le_vec const *v, size_t start, size_t end) {
 
     return slice;
 }
+
+size_t le_vec_find(struct le_vec const *v, LE_VEC_TYPE elem) {
+    return le_vec_find_n(v, elem, 1);
+}
+
+size_t le_vec_find_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n) {
+    size_t cntr = 0;
+    for (size_t i = 0; i < le_vec_get_length(v); i++) {
+        if (le_vec_get_at(v, i) == elem) {
+            cntr++;
+            if (cntr == n) {
+                return i;
+            }
+        }
+    }
+
+    return (size_t)-1;
+}
+
+size_t le_vec_rfind(struct le_vec const *v, LE_VEC_TYPE elem) {
+    return le_vec_rfind_n(v, elem, 1);
+}
+
+size_t le_vec_rfind_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n) {
+    size_t cntr = 0;
+    size_t v_last_index = le_vec_get_last_index(v);
+
+    for (size_t i = 0; i < le_vec_get_length(v); i++) {
+        size_t v_index = v_last_index - i;
+        if (le_vec_get_at(v, v_index) == elem) {
+            cntr++;
+            if (cntr == n) {
+                return v_index;
+            }
+        }
+    }
+
+    return (size_t)-1;
+}

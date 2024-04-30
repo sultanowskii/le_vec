@@ -67,3 +67,15 @@ void le_vec_reverse(struct le_vec *v);
 // Creates a [start; end) slice
 // Returns NULL if something is wrong with indexes
 struct le_vec *le_vec_slice(struct le_vec const *v, size_t start, size_t end);
+
+// Returns index of first elem entry
+// Returns invalid index if not found
+size_t le_vec_find(struct le_vec const *v, LE_VEC_TYPE elem);
+// Returns index of `n`th elem entry
+// Returns invalid index if not found
+size_t le_vec_find_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n);
+
+// Same as `find()`, but searches from end to start
+size_t le_vec_rfind(struct le_vec const *v, LE_VEC_TYPE elem);
+// Same as `find_n()`, but searches from end to start
+size_t le_vec_rfind_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n);

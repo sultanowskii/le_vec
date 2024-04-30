@@ -447,6 +447,124 @@ void test_slice_invalid(void) {
     le_vec_destroy(v);
 }
 
+void test_find(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 3);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 5);
+    le_vec_push_back(v, 9);
+    le_vec_push_back(v, 2);
+
+    size_t idx1 = le_vec_find(v, 3);
+    ASSERT_EQUAL(idx1, 0)
+
+    size_t idx2 = le_vec_find(v, 1);
+    ASSERT_EQUAL(idx2, 1)
+
+    size_t idx3 = le_vec_find(v, 4);
+    ASSERT_EQUAL(idx3, 2)
+
+    size_t idx4 = le_vec_find(v, 5);
+    ASSERT_EQUAL(idx4, 4)
+
+    size_t idx5 = le_vec_find(v, 9);
+    ASSERT_EQUAL(idx5, 5)
+
+    size_t idx6 = le_vec_find(v, 2);
+    ASSERT_EQUAL(idx6, 6)
+
+    le_vec_destroy(v);
+}
+
+void test_find_invalid(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 3);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+
+    size_t idx = le_vec_find(v, 999999);
+    ASSERT_NOT_EQUAL(idx, 0)
+    ASSERT_NOT_EQUAL(idx, 1)
+    ASSERT_NOT_EQUAL(idx, 2)
+
+    le_vec_destroy(v);
+}
+
+void test_find_n(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 1111);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 1111);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 1111);
+
+    size_t idx1 = le_vec_find_n(v, 1111, 1);
+    ASSERT_EQUAL(idx1, 1)
+
+    size_t idx2 = le_vec_find_n(v, 1111, 2);
+    ASSERT_EQUAL(idx2, 3)
+
+    size_t idx3 = le_vec_find_n(v, 1111, 3);
+    ASSERT_EQUAL(idx3, 6)
+
+    le_vec_destroy(v);
+}
+
+void test_rfind(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 999);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 999);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 999);
+    le_vec_push_back(v, 999);
+
+    size_t idx = le_vec_rfind(v, 999);
+    ASSERT_EQUAL(idx, 5)
+
+    le_vec_destroy(v);
+}
+
+void test_rfind_invalid(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 3);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 4);
+
+    size_t idx = le_vec_rfind(v, 999999);
+    ASSERT_NOT_EQUAL(idx, 0)
+    ASSERT_NOT_EQUAL(idx, 1)
+    ASSERT_NOT_EQUAL(idx, 2)
+
+    le_vec_destroy(v);
+}
+
+void test_rfind_n(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 1111);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 1111);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 0);
+    le_vec_push_back(v, 1111);
+
+    size_t idx1 = le_vec_rfind_n(v, 1111, 1);
+    ASSERT_EQUAL(idx1, 6)
+
+    size_t idx2 = le_vec_rfind_n(v, 1111, 2);
+    ASSERT_EQUAL(idx2, 3)
+
+    size_t idx3 = le_vec_rfind_n(v, 1111, 3);
+    ASSERT_EQUAL(idx3, 1)
+
+    le_vec_destroy(v);
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -471,6 +589,12 @@ void (*TESTS[])(void) = {
     test_slice_one,
     test_slice_all,
     test_slice_invalid,
+    test_find,
+    test_find_invalid,
+    test_find_n,
+    test_rfind,
+    test_rfind_invalid,
+    test_rfind_n,
 };
 
 int main() {
