@@ -2,6 +2,8 @@
 
 Your basic C vector.
 
+For now the type is defined by `LE_VEC_TYPE` in [src/le_vec.h](src/le_vec.h) (`int` by default). Gonna add generics in the near future.
+
 ## Install
 
 ```bash
@@ -49,3 +51,7 @@ int main() {
     return 0;
 }
 ```
+
+## Contribute
+
+If you have any suggestions, feel free to open an issue :)
