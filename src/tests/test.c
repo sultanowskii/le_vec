@@ -565,6 +565,102 @@ void test_rfind_n(void) {
     le_vec_destroy(v);
 }
 
+void test_replace_all(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 300);
+    le_vec_push_back(v, 20);
+    le_vec_push_back(v, 300);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 20);
+    le_vec_push_back(v, 1);
+
+    size_t replaced_cntr = le_vec_replace_all(v, 1, 9000);
+    
+    ASSERT_EQUAL(replaced_cntr, 3)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 9000)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 300)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 20)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 300)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 9000)
+    ASSERT_EQUAL(le_vec_get_at(v, 5), 20)
+    ASSERT_EQUAL(le_vec_get_at(v, 6), 9000)
+
+    le_vec_destroy(v);
+}
+
+void test_replace_all_non_present(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 3);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 5);
+    le_vec_push_back(v, 6);
+    le_vec_push_back(v, 7);
+
+    size_t replaced_cntr = le_vec_replace_all(v, 8080, 8000);
+    
+    ASSERT_EQUAL(replaced_cntr, 0)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 2)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 3)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 5)
+    ASSERT_EQUAL(le_vec_get_at(v, 5), 6)
+    ASSERT_EQUAL(le_vec_get_at(v, 6), 7)
+
+    le_vec_destroy(v);
+}
+
+void test_replace_n(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+
+    size_t replaced_cntr = le_vec_replace_n(v, 1, 4000, 3);
+    
+    ASSERT_EQUAL(replaced_cntr, 3)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 4000)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 4000)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 4000)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 5), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 6), 1)
+
+    le_vec_destroy(v);
+}
+
+void test_rreplace_n(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 1);
+
+    size_t replaced_cntr = le_vec_rreplace_n(v, 1, 4000, 3);
+    
+    ASSERT_EQUAL(replaced_cntr, 3)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 4000)
+    ASSERT_EQUAL(le_vec_get_at(v, 5), 4000)
+    ASSERT_EQUAL(le_vec_get_at(v, 6), 4000)
+
+    le_vec_destroy(v);
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -595,6 +691,10 @@ void (*TESTS[])(void) = {
     test_rfind,
     test_rfind_invalid,
     test_rfind_n,
+    test_replace_all,
+    test_replace_all_non_present,
+    test_replace_n,
+    test_rreplace_n,
 };
 
 int main() {

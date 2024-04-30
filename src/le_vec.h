@@ -74,8 +74,16 @@ size_t le_vec_find(struct le_vec const *v, LE_VEC_TYPE elem);
 // Returns index of `n`th elem entry
 // Returns invalid index if not found
 size_t le_vec_find_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n);
-
-// Same as `find()`, but searches from end to start
+// Returns index of first elem entry from end
+// Returns invalid index if not found
 size_t le_vec_rfind(struct le_vec const *v, LE_VEC_TYPE elem);
-// Same as `find_n()`, but searches from end to start
+// Returns index of `n`th elem entry from end
+// Returns invalid index if not found
 size_t le_vec_rfind_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n);
+
+// Replaces all `old_el`s with `new_el`
+size_t le_vec_replace_all(struct le_vec *v, LE_VEC_TYPE old_el, LE_VEC_TYPE new_el);
+// Replaces first n (or less, if there are no so many) `old_el`s with `new_el`
+size_t le_vec_replace_n(struct le_vec *v, LE_VEC_TYPE old_el, LE_VEC_TYPE new_el, size_t n);
+// Replaces first n (or less, if there are no so many) `old_el`s with `new_el` going from end to start
+size_t le_vec_rreplace_n(struct le_vec *v, LE_VEC_TYPE old_el, LE_VEC_TYPE new_el, size_t n);

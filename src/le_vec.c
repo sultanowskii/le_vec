@@ -310,3 +310,49 @@ size_t le_vec_rfind_n(struct le_vec const *v, LE_VEC_TYPE elem, size_t n) {
 
     return (size_t)-1;
 }
+
+size_t le_vec_replace_all(struct le_vec *v, LE_VEC_TYPE old_el, LE_VEC_TYPE new_el) {
+    return le_vec_replace_n(v, old_el, new_el, le_vec_get_length(v));
+}
+
+size_t le_vec_replace_n(struct le_vec *v, LE_VEC_TYPE old_el, LE_VEC_TYPE new_el, size_t n) {
+    if (old_el == new_el || n == 0) {
+        return 0;
+    }
+
+    size_t replaced = 0;
+
+    for (size_t i = 0; i < le_vec_get_length(v); i++) {
+        if (le_vec_get_at(v, i) == old_el) {
+            le_vec_set_at(v, i, new_el);
+            replaced++;
+            if (replaced == n) {
+                return replaced;
+            }
+        }
+    }
+
+    return replaced;
+}
+
+size_t le_vec_rreplace_n(struct le_vec *v, LE_VEC_TYPE old_el, LE_VEC_TYPE new_el, size_t n) {
+    if (old_el == new_el || n == 0) {
+        return 0;
+    }
+
+    size_t replaced = 0;
+    size_t v_last_index = le_vec_get_last_index(v);
+
+    for (size_t i = 0; i < le_vec_get_length(v); i++) {
+        size_t v_index = v_last_index - i;
+        if (le_vec_get_at(v, v_index) == old_el) {
+            le_vec_set_at(v, v_index, new_el);
+            replaced++;
+            if (replaced == n) {
+                return replaced;
+            }
+        }
+    }
+
+    return replaced;
+}
