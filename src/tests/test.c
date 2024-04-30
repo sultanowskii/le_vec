@@ -10,7 +10,7 @@ void test_init(void) {
     struct le_vec *v = le_vec_init();
 
     ASSERT_NOT_EQUAL(v, NULL)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
     ASSERT_EQUAL(le_vec_get_length(v), 0)
 
     le_vec_destroy(v);
@@ -43,15 +43,15 @@ void test_length_and_capacity_after_push(void) {
 
     le_vec_push_back(v, 100);
     ASSERT_EQUAL(le_vec_get_length(v), 1)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_push_back(v, 123);
     ASSERT_EQUAL(le_vec_get_length(v), 2)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_push_back(v, 900);
     ASSERT_EQUAL(le_vec_get_length(v), 3)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_destroy(v);
 }
@@ -61,20 +61,20 @@ void test_push_pop(void) {
 
     le_vec_push_back(v, 11);
     ASSERT_EQUAL(le_vec_get_length(v), 1)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_push_back(v, 22);
     ASSERT_EQUAL(le_vec_get_length(v), 2)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     int val = le_vec_pop_back(v);
     ASSERT_EQUAL(val, 22);
     ASSERT_EQUAL(le_vec_get_length(v), 1)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_push_back(v, 33);
     ASSERT_EQUAL(le_vec_get_length(v), 2)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_destroy(v);
 }
@@ -87,20 +87,20 @@ void test_pop(void) {
     int val = le_vec_pop_back(v);
     ASSERT_EQUAL(val, 22);
     ASSERT_EQUAL(le_vec_get_length(v), 1)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     bool success = false;
     int val1 = le_vec_s_pop_back(v, &success);
     ASSERT_EQUAL(success, true);
     ASSERT_EQUAL(val, 11);
     ASSERT_EQUAL(le_vec_get_length(v), 0)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     success = false;
     int val2 = le_vec_s_pop_back(v, &success);
     ASSERT_EQUAL(success, false);
     ASSERT_EQUAL(le_vec_get_length(v), 0)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_destroy(v);
 }
@@ -160,7 +160,7 @@ void test_resize(void) {
 
     le_vec_resize(v, 25);
     ASSERT_EQUAL(le_vec_get_length(v), 25)
-    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+    ASSERT_EQUAL(le_vec_get_capacity(v), LE_VEC_DEFAULT_CAPACITY)
 
     le_vec_resize(v, 10);
     ASSERT_EQUAL(le_vec_get_length(v), 10)

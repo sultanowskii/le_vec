@@ -5,6 +5,7 @@
 static int ERR_CNTR = 0;
 static int ASSERT_CNTR = 0;
 
+// If x evaluates to 0, prints message with details.
 #define ASSERT(x, msg) {                                      \
     if (!(x)) {                                               \
         printf(                                               \
@@ -20,15 +21,19 @@ static int ASSERT_CNTR = 0;
     ASSERT_CNTR++;                                            \
 }
 
+// ASSERT(s1 == s2)
 #define ASSERT_STRINGS_EQUAL(a, b)                     \
     ASSERT(strcmp((a), (b)) == 0, ("strings differ"))
 
+// ASSERT(a == b)
 #define ASSERT_EQUAL(a, b)                 \
     ASSERT((a) == (b), ("values differ"))
 
+// ASSERT(a >= b)
 #define ASSERT_BGE(a, b)                                    \
     ASSERT((a) >= (b), ("first value is less than second"))
 
+// ASSERT(a != b)
 #define ASSERT_NOT_EQUAL(a, b)           \
     ASSERT((a) != (b), ("values match"))
 
