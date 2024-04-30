@@ -177,6 +177,34 @@ void test_resize(void) {
     le_vec_destroy(v);
 }
 
+void test_extend(void) {
+    struct le_vec *v1 = le_vec_init();
+    le_vec_push_back(v1, 1);
+    le_vec_push_back(v1, 1);
+    le_vec_push_back(v1, 1);
+
+    struct le_vec *v2 = le_vec_init();
+    le_vec_push_back(v2, 2);
+    le_vec_push_back(v2, 2);
+
+    struct le_vec *v3 = le_vec_init();
+
+    le_vec_extend(v2, v3);
+    ASSERT_EQUAL(le_vec_get_length(v2), 2)
+    ASSERT_EQUAL(le_vec_get_length(v3), 0)
+    ASSERT_EQUAL(le_vec_get_at(v2, 0), 2)
+    ASSERT_EQUAL(le_vec_get_at(v2, 1), 2)
+
+    le_vec_extend(v1, v2);
+    ASSERT_EQUAL(le_vec_get_length(v1), 5)
+    ASSERT_EQUAL(le_vec_get_length(v2), 2)
+    ASSERT_EQUAL(le_vec_get_at(v1, 0), 1)
+    ASSERT_EQUAL(le_vec_get_at(v1, 1), 1)
+    ASSERT_EQUAL(le_vec_get_at(v1, 2), 1)
+    ASSERT_EQUAL(le_vec_get_at(v1, 3), 2)
+    ASSERT_EQUAL(le_vec_get_at(v1, 4), 2)
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -188,6 +216,7 @@ void (*TESTS[])(void) = {
     test_last_index,
     test_get_at,
     test_resize,
+    test_extend,
 };
 
 int main() {

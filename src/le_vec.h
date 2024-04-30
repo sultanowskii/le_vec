@@ -27,3 +27,5 @@ TYPE le_vec_get_at(struct le_vec const *v, size_t index);
 bool le_vec_set_at(struct le_vec *v, size_t index, TYPE value);
 
 void le_vec_resize(struct le_vec *v, size_t new_length);
+
+void le_vec_extend(struct le_vec *v, struct le_vec const *other);

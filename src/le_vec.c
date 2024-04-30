@@ -170,3 +170,23 @@ void le_vec_resize(struct le_vec *v, size_t new_length) {
         _le_vec_shrink_down_to_length(v);
     }
 }
+
+void le_vec_extend(struct le_vec *v, struct le_vec const *other) {
+    if (le_vec_is_empty(other)) {
+        return;
+    }
+
+    size_t v_length = le_vec_get_length(v);
+    size_t other_length = le_vec_get_length(other);
+
+    size_t total_length = v_length + other_length;
+
+    le_vec_resize(v, total_length);
+
+    for (size_t i = 0; i < other_length; i++) {
+        size_t first_index = i + v_length;
+        size_t other_index = i;
+
+        v->data[first_index] = other->data[other_index];
+    }
+}
