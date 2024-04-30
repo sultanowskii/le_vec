@@ -63,3 +63,7 @@ struct le_vec *le_vec_copy(struct le_vec const *v);
 struct le_vec *le_vec_reversed(struct le_vec const *v);
 // Reverses vector in-place
 void le_vec_reverse(struct le_vec *v);
+
+// Creates a [start; end) slice
+// Returns NULL if something is wrong with indexes
+struct le_vec *le_vec_slice(struct le_vec const *v, size_t start, size_t end);

@@ -357,6 +357,96 @@ void test_reverse(void) {
     le_vec_destroy(reversed_v);
 }
 
+void test_slice(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 8);
+    le_vec_push_back(v, 16);
+    le_vec_push_back(v, 32);
+
+    struct le_vec *slice = le_vec_slice(v, 2, 4);
+    ASSERT_NOT_EQUAL(slice, NULL)
+    ASSERT_NOT_EQUAL(slice, v)
+    ASSERT_EQUAL(le_vec_get_length(slice), 2)
+    ASSERT_EQUAL(le_vec_get_at(slice, 0), 4)
+    ASSERT_EQUAL(le_vec_get_at(slice, 1), 8)
+
+    le_vec_destroy(v);
+    le_vec_destroy(slice);
+}
+
+void test_slice_one(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 8);
+    le_vec_push_back(v, 16);
+    le_vec_push_back(v, 32);
+
+    struct le_vec *sl = le_vec_slice(v, 1, 2);
+    ASSERT_NOT_EQUAL(sl, NULL)
+    ASSERT_NOT_EQUAL(sl, v)
+    ASSERT_EQUAL(le_vec_get_length(sl), 1)
+    ASSERT_EQUAL(le_vec_get_at(sl, 0), 2)
+
+    le_vec_destroy(v);
+    le_vec_destroy(sl);
+}
+
+void test_slice_all(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 8);
+    le_vec_push_back(v, 16);
+    le_vec_push_back(v, 32);
+
+    struct le_vec *slice = le_vec_slice(v, 0, 6);
+    ASSERT_NOT_EQUAL(slice, NULL)
+    ASSERT_NOT_EQUAL(slice, v)
+    ASSERT_EQUAL(le_vec_get_length(slice), 6)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 1)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 2)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 3), 8)
+    ASSERT_EQUAL(le_vec_get_at(v, 4), 16)
+    ASSERT_EQUAL(le_vec_get_at(v, 5), 32)
+
+    le_vec_destroy(v);
+    le_vec_destroy(slice);
+}
+
+void test_slice_invalid(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 4);
+    le_vec_push_back(v, 8);
+    le_vec_push_back(v, 16);
+    le_vec_push_back(v, 32);
+
+    struct le_vec *slice1 = le_vec_slice(v, 0, 0);
+    ASSERT_EQUAL(slice1, NULL)
+
+    struct le_vec *slice2 = le_vec_slice(v, 0, 7);
+    ASSERT_EQUAL(slice2, NULL)
+
+    struct le_vec *slice3 = le_vec_slice(v, 3, 1);
+    ASSERT_EQUAL(slice3, NULL)
+
+    struct le_vec *slice4 = le_vec_slice(v, 1, 1);
+    ASSERT_EQUAL(slice4, NULL)
+
+    struct le_vec *slice5 = le_vec_slice(v, 9, 12);
+    ASSERT_EQUAL(slice5, NULL)
+
+    le_vec_destroy(v);
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -377,6 +467,10 @@ void (*TESTS[])(void) = {
     test_reversed_two,
     test_reversed_one,
     test_reverse,
+    test_slice,
+    test_slice_one,
+    test_slice_all,
+    test_slice_invalid,
 };
 
 int main() {

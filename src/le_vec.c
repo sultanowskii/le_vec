@@ -248,3 +248,26 @@ void le_vec_reverse(struct le_vec *v) {
         le_vec_set_at(v, r, l_value);
     }
 }
+
+struct le_vec *le_vec_slice(struct le_vec const *v, size_t start, size_t end) {
+    if (!le_vec_is_index_valid(v, start) || !le_vec_is_index_valid(v, end - 1)) {
+        return NULL;
+    }
+
+    if (start > end) {
+        return NULL;
+    }
+
+    size_t slice_length = end - start;
+
+    struct le_vec *slice = le_vec_init_with_length(slice_length);
+
+    for (size_t i = 0; i < slice_length; i++) {
+        size_t slice_index = i;
+        size_t v_index = i + start;
+
+        le_vec_set_at(slice, slice_index, le_vec_get_at(v, v_index));
+    }
+
+    return slice;
+}
