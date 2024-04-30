@@ -1,6 +1,6 @@
 # le_vec
 
-Ye basic C vector.
+Your basic C vector.
 
 ## Install
 
@@ -23,7 +23,7 @@ Or just copy+paste [src/](src/) right into your code.
 ## Usage
 
 ```c
-#include <le_vec>
+#include <le_vec.h>
 
 int main() {
     // Create the le_vec

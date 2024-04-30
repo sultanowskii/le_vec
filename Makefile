@@ -54,4 +54,4 @@ example: $(EXAMPLE_OBJS)
 install:
 	install -m 755 $(TARGET) /usr/local/lib/
 	ldconfig /usr/local/lib/
-	cp src/$(HEADER_NAME_H) /usr/local/include/$(HEADER_NAME)
+	cp src/$(HEADER_NAME_H) /usr/local/include/$(HEADER_NAME_H)

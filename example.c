@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stddef.h>
-#include <le_vec>
+#include <le_vec.h>
 
 int main() {
     // Create the le_vec
