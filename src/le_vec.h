@@ -9,7 +9,7 @@
 struct le_vec;
 
 struct le_vec *le_vec_init(void);
-struct le_vec *le_vec_init_with_length(size_t length_request);
+struct le_vec *le_vec_init_with_length(size_t request);
 void le_vec_destroy(struct le_vec *v);
 
 size_t le_vec_get_length(struct le_vec const *v);
@@ -25,3 +25,5 @@ size_t le_vec_get_last_index(struct le_vec const *v);
 
 TYPE le_vec_get_at(struct le_vec const *v, size_t index);
 bool le_vec_set_at(struct le_vec *v, size_t index, TYPE value);
+
+void le_vec_resize(struct le_vec *v, size_t new_length);

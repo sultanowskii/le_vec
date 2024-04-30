@@ -26,6 +26,9 @@ static int ASSERT_CNTR = 0;
 #define ASSERT_EQUAL(a, b)                 \
     ASSERT((a) == (b), ("values differ"))
 
+#define ASSERT_BGE(a, b)                                    \
+    ASSERT((a) >= (b), ("first value is less than second"))
+
 #define ASSERT_NOT_EQUAL(a, b)           \
     ASSERT((a) != (b), ("values match"))
 

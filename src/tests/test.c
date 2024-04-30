@@ -155,6 +155,28 @@ void test_get_at(void) {
     le_vec_destroy(v);
 }
 
+void test_resize(void) {
+    struct le_vec *v = le_vec_init();
+
+    le_vec_resize(v, 25);
+    ASSERT_EQUAL(le_vec_get_length(v), 25)
+    ASSERT_EQUAL(le_vec_get_capacity(v), DEFAULT_CAPACITY)
+
+    le_vec_resize(v, 10);
+    ASSERT_EQUAL(le_vec_get_length(v), 10)
+    ASSERT_EQUAL(le_vec_get_capacity(v), 10)
+
+    le_vec_resize(v, 60);
+    ASSERT_EQUAL(le_vec_get_length(v), 60)
+    ASSERT_BGE(le_vec_get_capacity(v), 60)
+
+    le_vec_resize(v, 0);
+    ASSERT_EQUAL(le_vec_get_length(v), 0)
+    ASSERT_EQUAL(le_vec_get_capacity(v), 0)
+    
+    le_vec_destroy(v);
+}
+
 void (*TESTS[])(void) = {
     test_init,
     test_init_with_length,
@@ -165,6 +187,7 @@ void (*TESTS[])(void) = {
     test_is_index_valid,
     test_last_index,
     test_get_at,
+    test_resize,
 };
 
 int main() {

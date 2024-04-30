@@ -10,6 +10,15 @@ struct le_vec {
     TYPE *data;
 };
 
+// Expands data so that capacity is >= request.
+bool __le_vec_expand_to_request(struct le_vec *v, size_t request);
+// Expands data. Call this.
+bool _le_vec_expand(struct le_vec *v);
+// Explicitly and stupidly sets a length to a new value.
+void _le_vec_set_length(struct le_vec *v, size_t new_length);
+// Reallocates data and so that capacity == length.
+void _le_vec_shrink_down_to_length(struct le_vec *v);
+
 struct le_vec *le_vec_init(void) {
     struct le_vec *v = malloc(sizeof(struct le_vec));
     TYPE *data = malloc(DEFAULT_CAPACITY);
@@ -21,16 +30,16 @@ struct le_vec *le_vec_init(void) {
     return v;
 }
 
-struct le_vec *le_vec_init_with_length(size_t length_request) {
-    if (length_request == 0) {
+struct le_vec *le_vec_init_with_length(size_t request) {
+    if (request == 0) {
         return NULL;
     }
 
     struct le_vec *v = malloc(sizeof(struct le_vec));
-    TYPE *data = malloc(length_request);
+    TYPE *data = malloc(request);
     
-    v->capacity = length_request;
-    v->length = length_request;
+    v->capacity = request;
+    v->length = request;
     v->data = data;
 
     return v;
@@ -56,26 +65,6 @@ size_t le_vec_get_length(struct le_vec const *v) {
 
 bool le_vec_is_empty(struct le_vec const *v) {
     return le_vec_get_length(v) == 0;
-}
-
-bool __le_vec_expand_to_request(struct le_vec *v, size_t request) {
-    size_t capacity = le_vec_get_capacity(v);
-    if (capacity >= request) {
-        return false;
-    }
-
-    while (capacity < request) {
-        capacity *= 2;
-    }
-
-    v->data = realloc(v->data, capacity);
-    v->capacity = capacity;
-
-    return true;
-}
-
-bool _le_vec_expand(struct le_vec *v) {
-    return __le_vec_expand_to_request(v, v->length + 1);
 }
 
 void le_vec_push_back(struct le_vec *v, TYPE value) {
@@ -128,4 +117,56 @@ bool le_vec_set_at(struct le_vec *v, size_t index, TYPE value) {
 
     v->data[index] = value;
     return true;
+}
+
+bool __le_vec_expand_to_request(struct le_vec *v, size_t request) {
+    size_t capacity = le_vec_get_capacity(v);
+    if (capacity >= request) {
+        return false;
+    }
+
+    while (capacity < request) {
+        capacity *= 2;
+    }
+
+    v->data = realloc(v->data, capacity);
+    v->capacity = capacity;
+
+    return true;
+}
+
+bool _le_vec_expand(struct le_vec *v) {
+    return __le_vec_expand_to_request(v, v->length + 1);
+}
+
+void _le_vec_set_length(struct le_vec *v, size_t new_length) {
+    v->length = new_length;
+}
+
+void _le_vec_shrink_down_to_length(struct le_vec *v) {
+    size_t length = le_vec_get_length(v);
+
+    v->data = realloc(v->data, length);
+    v->capacity = length;
+}
+
+void le_vec_resize(struct le_vec *v, size_t new_length) {
+    size_t capacity = le_vec_get_capacity(v);
+    size_t length = le_vec_get_length(v);
+
+    if (new_length == length) {
+        return;
+    }
+
+    if (new_length > capacity) {
+        __le_vec_expand_to_request(v, new_length);
+        _le_vec_set_length(v, new_length);
+        return;
+    }
+
+    _le_vec_set_length(v, new_length);
+
+    if (le_vec_get_length(v) < le_vec_get_capacity(v) / 2) {
+        _le_vec_shrink_down_to_length(v);
+    }
 }
