@@ -18,6 +18,9 @@ bool _le_vec_expand(struct le_vec *v);
 void _le_vec_set_length(struct le_vec *v, size_t new_length);
 // Reallocates data and so that capacity == length.
 void _le_vec_shrink_down_to_length(struct le_vec *v);
+// Applies f for each element in src and stores result in dest.
+// dest.length must be >= src.lentgth to fit all elements.
+void _le_vec_map(struct le_vec *dest, struct le_vec const *src, TYPE (*f)(TYPE));
 
 struct le_vec *le_vec_init(void) {
     struct le_vec *v = malloc(sizeof(struct le_vec));
@@ -37,7 +40,7 @@ struct le_vec *le_vec_init_with_length(size_t request) {
 
     struct le_vec *v = malloc(sizeof(struct le_vec));
     TYPE *data = malloc(request);
-    
+   
     v->capacity = request;
     v->length = request;
     v->data = data;
@@ -189,4 +192,22 @@ void le_vec_extend(struct le_vec *v, struct le_vec const *other) {
 
         v->data[first_index] = other->data[other_index];
     }
+}
+
+void _le_vec_map(struct le_vec *dest, struct le_vec const *src, TYPE (*f)(TYPE)) {
+    for (size_t i = 0; i < le_vec_get_length(src); i++) {
+        dest->data[i] = f(src->data[i]);
+    }
+}
+
+struct le_vec *le_vec_map(struct le_vec *v, TYPE (*f)(TYPE)) {
+    struct le_vec *new_v = le_vec_init_with_length(le_vec_get_length(v));
+
+    _le_vec_map(new_v, v, f);
+
+    return new_v;
+}
+
+void le_vec_for_each(struct le_vec *v, TYPE (*f)(TYPE)) {
+    _le_vec_map(v, v, f);
 }

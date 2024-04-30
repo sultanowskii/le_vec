@@ -173,7 +173,7 @@ void test_resize(void) {
     le_vec_resize(v, 0);
     ASSERT_EQUAL(le_vec_get_length(v), 0)
     ASSERT_EQUAL(le_vec_get_capacity(v), 0)
-    
+
     le_vec_destroy(v);
 }
 
@@ -203,6 +203,48 @@ void test_extend(void) {
     ASSERT_EQUAL(le_vec_get_at(v1, 2), 1)
     ASSERT_EQUAL(le_vec_get_at(v1, 3), 2)
     ASSERT_EQUAL(le_vec_get_at(v1, 4), 2)
+
+    le_vec_destroy(v3);
+    le_vec_destroy(v2);
+    le_vec_destroy(v1);
+}
+
+int multiply_by_2(int n) {
+    return n * 2;
+}
+
+void test_map(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 3);
+
+    struct le_vec *new_v = le_vec_map(v, multiply_by_2);
+
+    ASSERT_NOT_EQUAL(new_v, NULL)
+    ASSERT_EQUAL(le_vec_get_length(new_v), 3)
+    ASSERT_EQUAL(le_vec_get_at(new_v, 0), 2)
+    ASSERT_EQUAL(le_vec_get_at(new_v, 1), 4)
+    ASSERT_EQUAL(le_vec_get_at(new_v, 2), 6)
+
+    le_vec_destroy(v);
+    le_vec_destroy(new_v);
+}
+
+void test_for_each(void) {
+    struct le_vec *v = le_vec_init();
+    le_vec_push_back(v, 1);
+    le_vec_push_back(v, 2);
+    le_vec_push_back(v, 3);
+
+    le_vec_for_each(v, multiply_by_2);
+
+    ASSERT_EQUAL(le_vec_get_length(v), 3)
+    ASSERT_EQUAL(le_vec_get_at(v, 0), 2)
+    ASSERT_EQUAL(le_vec_get_at(v, 1), 4)
+    ASSERT_EQUAL(le_vec_get_at(v, 2), 6)
+
+    le_vec_destroy(v);
 }
 
 void (*TESTS[])(void) = {
@@ -217,6 +259,8 @@ void (*TESTS[])(void) = {
     test_get_at,
     test_resize,
     test_extend,
+    test_map,
+    test_for_each,
 };
 
 int main() {
